@@ -28,9 +28,7 @@ import org.jetbrains.compose.resources.painterResource
 import pengembanganaplikasimobile.composeapp.generated.resources.Res
 import pengembanganaplikasimobile.composeapp.generated.resources.profile_photo
 
-// ============================================================
-// DATA MODEL
-// ============================================================
+
 data class UserProfile(
     val name: String,
     val title: String,
@@ -48,9 +46,7 @@ data class JadwalItem(
     val warna: Color
 )
 
-// ============================================================
-// COMPOSABLE 1: ProfileHeader
-// ============================================================
+
 @Composable
 fun ProfileHeader(
     name: String,
@@ -105,9 +101,7 @@ fun ProfileHeader(
     }
 }
 
-// ============================================================
-// COMPOSABLE 2: InfoItem
-// ============================================================
+
 @Composable
 fun InfoItem(
     emoji: String,
@@ -150,9 +144,7 @@ fun InfoItem(
     }
 }
 
-// ============================================================
-// COMPOSABLE 3: ProfileCard
-// ============================================================
+
 @Composable
 fun ProfileCard(
     title: String,
@@ -186,9 +178,7 @@ fun ProfileCard(
     }
 }
 
-// ============================================================
-// COMPOSABLE 4: BioSection
-// ============================================================
+
 @Composable
 fun BioSection(
     bio: String,
@@ -205,10 +195,7 @@ fun BioSection(
     }
 }
 
-// ============================================================
-// COMPOSABLE: JadwalRow
-// Satu baris jadwal kuliah
-// ============================================================
+
 @Composable
 fun JadwalRow(item: JadwalItem) {
     Row(
@@ -267,10 +254,7 @@ fun JadwalRow(item: JadwalItem) {
     }
 }
 
-// ============================================================
-// COMPOSABLE: JadwalDialog
-// Dialog popup jadwal kuliah per hari
-// ============================================================
+
 @Composable
 fun JadwalDialog(onDismiss: () -> Unit) {
     val jadwalList = listOf(
@@ -350,9 +334,7 @@ fun JadwalDialog(onDismiss: () -> Unit) {
     }
 }
 
-// ============================================================
-// COMPOSABLE: EditProfileDialog
-// ============================================================
+
 @Composable
 fun EditProfileDialog(
     profile: UserProfile,
@@ -424,9 +406,7 @@ fun EditProfileDialog(
     }
 }
 
-// ============================================================
-// COMPOSABLE 5: ActionButtons
-// ============================================================
+
 @Composable
 fun ActionButtons(
     onEditClick: () -> Unit,
@@ -467,9 +447,7 @@ fun ActionButtons(
     }
 }
 
-// ============================================================
-// MAIN SCREEN: MyProfileScreen
-// ============================================================
+
 @Composable
 fun MyProfileScreen() {
     var profile by remember {
@@ -560,9 +538,6 @@ fun MyProfileScreen() {
     }
 }
 
-// ============================================================
-// ENTRY POINT
-// ============================================================
 @Composable
 fun App() {
     MaterialTheme {
