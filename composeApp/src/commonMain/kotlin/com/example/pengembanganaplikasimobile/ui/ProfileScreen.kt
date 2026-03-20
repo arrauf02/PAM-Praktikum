@@ -36,9 +36,7 @@ import org.jetbrains.compose.resources.painterResource
 import pengembanganaplikasimobile.composeapp.generated.resources.Res
 import pengembanganaplikasimobile.composeapp.generated.resources.profile_photo
 
-// ============================================================
-// Helper — animasi warna smooth 300ms
-// ============================================================
+
 @Composable
 fun animColor(light: Color, dark: Color, isDark: Boolean): Color =
     animateColorAsState(
@@ -47,9 +45,7 @@ fun animColor(light: Color, dark: Color, isDark: Boolean): Color =
         label         = "colorAnim"
     ).value
 
-// ============================================================
-// COMPOSABLE 1: ProfileHeader — dark mode aware pada header
-// ============================================================
+
 @Composable
 fun ProfileHeader(
     name: String,
@@ -57,7 +53,7 @@ fun ProfileHeader(
     isDark: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    // Warna gradient header ikut berubah saat dark mode
+
     val gradientStart = animColor(AppColors.headerLightStart, AppColors.headerDarkStart, isDark)
     val gradientEnd   = animColor(AppColors.headerLightEnd,   AppColors.headerDarkEnd,   isDark)
 
@@ -107,9 +103,7 @@ fun ProfileHeader(
     }
 }
 
-// ============================================================
-// COMPOSABLE 2: InfoItem — dark mode aware
-// ============================================================
+
 @Composable
 fun InfoItem(
     emoji: String,
@@ -151,9 +145,7 @@ fun InfoItem(
     }
 }
 
-// ============================================================
-// COMPOSABLE 3: ProfileCard — dark mode aware
-// ============================================================
+
 @Composable
 fun ProfileCard(
     title: String,
@@ -191,9 +183,7 @@ fun ProfileCard(
     }
 }
 
-// ============================================================
-// COMPOSABLE 4: BioSection — dark mode aware
-// ============================================================
+
 @Composable
 fun BioSection(
     bio: String,
@@ -213,9 +203,6 @@ fun BioSection(
     }
 }
 
-// ============================================================
-// COMPOSABLE: DarkModeToggle
-// ============================================================
 @Composable
 fun DarkModeToggle(
     isDark: Boolean,
@@ -250,9 +237,7 @@ fun DarkModeToggle(
     }
 }
 
-// ============================================================
-// COMPOSABLE 5: ActionButtons
-// ============================================================
+
 @Composable
 fun ActionButtons(
     onEditClick: () -> Unit,
@@ -288,10 +273,7 @@ fun ActionButtons(
     }
 }
 
-// ============================================================
-// COMPOSABLE: EditProfileDialog
-// State hoisting — TextField menerima value & callback dari ViewModel
-// ============================================================
+
 @Composable
 fun EditProfileDialog(
     name: String,
@@ -383,9 +365,7 @@ fun EditProfileDialog(
     }
 }
 
-// ============================================================
-// COMPOSABLE: JadwalRow — dark mode aware
-// ============================================================
+
 @Composable
 fun JadwalRow(item: JadwalItem, isDark: Boolean = false) {
     val textColor    = animColor(AppColors.lightText,    AppColors.darkText,    isDark)
@@ -434,9 +414,7 @@ fun JadwalRow(item: JadwalItem, isDark: Boolean = false) {
     }
 }
 
-// ============================================================
-// COMPOSABLE: JadwalDialog — dark mode aware
-// ============================================================
+
 @Composable
 fun JadwalDialog(onDismiss: () -> Unit, isDark: Boolean = false) {
     val jadwalList = listOf(
@@ -499,10 +477,7 @@ fun JadwalDialog(onDismiss: () -> Unit, isDark: Boolean = false) {
     }
 }
 
-// ============================================================
-// MAIN SCREEN: MyProfileScreen
-// Consume state dari ProfileViewModel via collectAsState()
-// ============================================================
+
 @Composable
 fun MyProfileScreen() {
     val viewModel = remember { ProfileViewModel() }

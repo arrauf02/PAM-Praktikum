@@ -7,11 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-// ============================================================
-// ProfileViewModel — extends ViewModel(), mengelola state
-// dengan MutableStateFlow & expose sebagai StateFlow
-// ProfileUiState diimpor dari data layer
-// ============================================================
+
 class ProfileViewModel : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileUiState())

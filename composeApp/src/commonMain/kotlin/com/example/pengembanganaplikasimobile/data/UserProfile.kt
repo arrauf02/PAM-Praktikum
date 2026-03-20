@@ -2,9 +2,7 @@ package com.example.pengembanganaplikasimobile.data
 
 import androidx.compose.ui.graphics.Color
 
-// ============================================================
-// DATA LAYER
-// ============================================================
+
 data class UserProfile(
     val name: String,
     val title: String,
@@ -22,10 +20,7 @@ data class JadwalItem(
     val warna: Color
 )
 
-// ============================================================
-// ProfileUiState — dipindah ke data layer
-// Single source of truth untuk semua UI state
-// ============================================================
+
 data class ProfileUiState(
     val profile: UserProfile = UserProfile(
         name     = "Arrauf Setiawan Muhammad Jabar",
