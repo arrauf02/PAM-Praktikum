@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.androidApplication)
+    alias(libs.plugins.sqldelight)
 }
 
 kotlin {
@@ -24,6 +25,9 @@ kotlin {
 
                 implementation(libs.navigation.compose)
                 implementation(libs.savedstate)
+                implementation(libs.sqldelight.runtime)
+                implementation(libs.sqldelight.coroutine)
+                implementation(libs.androidx.datastore.preferences.core)
             }
         }
 
@@ -45,6 +49,13 @@ kotlin {
             dependencies {
                 implementation(libs.kotlin.test)
             }
+        }
+    }
+}
+sqldelight {
+    databases {
+        create("NotesDatabase") {
+            packageName.set("com.example.pengembanganaplikasimobile.db")
         }
     }
 }

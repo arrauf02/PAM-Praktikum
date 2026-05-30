@@ -1,71 +1,51 @@
-package screens
+package com.example.pengembanganaplikasimobile.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import components.GalaxyWrapper
-import navigation.NoteItem
-import com.example.pengembanganaplikasimobile.screens.AddNoteDialog
+import com.example.pengembanganaplikasimobile.data.NoteRepository
+import com.example.pengembanganaplikasimobile.db.NoteEntity
 
 @Composable
-fun NoteListScreen(
-    notes: List<NoteItem>,
-    onNoteClick: (Int) -> Unit,
-    onSaveNote: (String, String) -> Unit
-) {
-    var showDialog by remember { mutableStateOf(false) }
+fun NoteListScreen(repository: NoteRepository, onNoteClick: (Long) -> Unit) {
+    var searchQuery by remember { mutableStateOf("") }
+    val notes by repository.searchNotes(searchQuery).collectAsState(emptyList())
 
-    GalaxyWrapper {
-        Scaffold(
-            containerColor = Color.Transparent,
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = { showDialog = true },
-                    containerColor = Color(0xFFBB86FC)
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+        // Fitur Search sesuai Tugas 7
+        OutlinedTextField(
+            value = searchQuery,
+            onValueChange = { searchQuery = it },
+            label = { Text("Search Galaxy Notes...", color = Color.White) },
+            modifier = Modifier.fillMaxWidth(),
+            colors = OutlinedTextFieldDefaults.colors(
+                focusedBorderColor = Color(0xFFBB86FC), // Ungu Galaxy
+                unfocusedBorderColor = Color.Gray,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White
+            )
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        LazyColumn {
+            items(notes) { note ->
+                Card(
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp).clickable { onNoteClick(note.id) },
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A2E)) // Biru Gelap
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = null, tint = Color.Black)
-                }
-            }
-        ) { padding ->
-            Column(modifier = Modifier.padding(16.dp).padding(padding)) {
-                Text("🌌 Ups Diary", style = MaterialTheme.typography.headlineMedium, color = Color.White)
-                Spacer(modifier = Modifier.height(20.dp))
-
-                LazyColumn(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                    items(notes) { note ->
-                        Card(
-                            colors = CardDefaults.cardColors(containerColor = Color(0xFF3D2C5E)),
-                            modifier = Modifier.fillMaxWidth().clickable { onNoteClick(note.id) }
-                        ) {
-                            Row(modifier = Modifier.padding(16.dp)) {
-                                Text("🚀", modifier = Modifier.padding(end = 8.dp))
-                                Column {
-                                    Text(note.title, color = Color.Cyan)
-                                    Text(note.content, color = Color.White.copy(alpha = 0.7f), style = MaterialTheme.typography.bodySmall)
-                                }
-                            }
-                        }
+                    Column(modifier = Modifier.padding(16.dp)) {
+                        Text(note.title, color = Color(0xFFBB86FC), style = MaterialTheme.typography.titleMedium)
+                        Text(note.content, color = Color.White)
                     }
                 }
             }
-        }
-
-        if (showDialog) {
-            AddNoteDialog(
-                onDismiss = { showDialog = false },
-                onSave = { t, c ->
-                    onSaveNote(t, c)
-                    showDialog = false
-                }
-            )
         }
     }
 }
