@@ -1,3 +1,14 @@
+# Tugas Pengembangan Aplikasi Mobile
+
+## Identitas
+- **Nama:** Arrauf Setiawan Muhammad Jabar
+- **NIM:** 123140032
+
+
+### Desktop (JVM)
+![Screenshot Desktop](desktop_P3.png)
+
+
 This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
 
 * [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
