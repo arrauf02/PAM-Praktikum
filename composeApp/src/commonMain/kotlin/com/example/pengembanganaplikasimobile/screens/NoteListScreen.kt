@@ -77,13 +77,22 @@ fun NoteListScreen(
                 LazyColumn {
                     items(notes) { note ->
                         Card(
-                            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp).clickable { onNoteClick(note.id) },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp)
+                                .clickable { onNoteClick(note.id) },
                             colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A2E))
                         ) {
                             Column(modifier = Modifier.padding(16.dp)) {
-                                Text(note.title, color = Color(0xFFBB86FC), style = MaterialTheme.typography.titleMedium)
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text(note.content, color = Color.White)
+                                // Hanya menampilkan Judul saja
+                                Text(
+                                    text = note.title,
+                                    color = Color(0xFFBB86FC),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+
+                                // BARIS INI DIHAPUS: Text(note.content, color = Color.White)
+                                // Spacer(modifier = Modifier.height(4.dp)) <- Ini juga boleh dihapus biar jaraknya pas
 
                                 Spacer(modifier = Modifier.height(12.dp))
                                 Row(

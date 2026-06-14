@@ -25,7 +25,8 @@ UPDATE NoteEntity SET title = ?, content = ?, createdAt = ? WHERE id = ?;
 -- Query Delete
 deleteNote:
 DELETE FROM NoteEntity WHERE id = ?;
-
+selectNoteById:
+SELECT * FROM NoteEntity WHERE id = ?;
 -- Query Search
 searchNotes:
 SELECT * FROM NoteEntity WHERE title LIKE ('%' || :query || '%') OR content LIKE ('%' || :query || '%');

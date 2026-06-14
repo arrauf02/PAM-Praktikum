@@ -79,7 +79,8 @@ fun AppNavigation(repository: NoteRepository, dataStore: DataStore<Preferences>)
                 arguments = listOf(navArgument("noteId") { type = NavType.LongType })
             ) { backStackEntry ->
                 val id = backStackEntry.arguments?.getLong("noteId") ?: 0L
-                NoteDetailScreen(noteId = id, onBack = { navController.popBackStack() })
+                // TAMBAHKAN repository = repository di bawah ini 👇
+                NoteDetailScreen(noteId = id, repository = repository, onBack = { navController.popBackStack() })
             }
         }
     }

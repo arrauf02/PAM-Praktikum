@@ -5,10 +5,125 @@
 - **NIM:** 123140032
 
 
-### Desktop (JVM)
-![Screenshot Desktop](desktop1.png)
-![Screenshot Desktop](desktop2.png)
+## ✨ Fitur Utama
 
+| # | Fitur | Deskripsi |
+|---|---|---|
+| 1 | 🗄️ **Local Data Storage** | Penyimpanan data lokal terstruktur dengan SQLDelight dan pendekatan *offline-first* |
+| 2 | ✏️ **CRUD Lengkap** | Buat, baca, perbarui, dan hapus catatan dengan mudah |
+| 3 | 🔍 **Pencarian Real-time** | Cari catatan berdasarkan judul atau isi secara instan |
+| 4 | ⚙️ **Preferensi Pengguna** | Pengaturan sort order (Terbaru/Terlama) dan tema (Galaxy Dark / Light) via DataStore |
+| 5 | 🌌 **Proper UI States** | Tampilan *empty state* "Orbit kosong" saat belum ada data tersimpan |
+ 
+---
+
+## 📸 Dokumentasi Layar
+
+### 1. 📋 Layar Daftar Catatan *(Note List & Search)*
+> Menampilkan daftar catatan, kolom pencarian *real-time*, dan floating action button untuk menambah catatan baru.
+
+![Screenshot Desktop](screenutama.png)
+```
+[Screenshot — Note List & Search Screen]
+```
+ 
+---
+
+### 2. ✏️ Layar Tambah / Edit Catatan
+> Dialog form untuk memasukkan judul dan isi catatan baru, atau mengedit catatan yang sudah ada.
+
+![Screenshot Desktop](addnote.png)
+
+```
+[Screenshot — Add / Edit Note Dialog]
+```
+ 
+---
+
+### 3. 🔎 Layar Detail Catatan
+> Menampilkan detail lengkap catatan yang dipilih, termasuk ID, judul, isi, dan tanggal pembuatan.
+
+![Screenshot Desktop](detailnote.png)
+```
+[Screenshot — Note Detail Screen]
+```
+ 
+---
+
+### 4. ⚙️ Layar Pengaturan / Profil *(DataStore)*
+> Tampilan identitas pengguna beserta tombol pengaturan DataStore untuk **Toggle Urutan** dan **Ubah Tema**.
+
+![Screenshot Desktop](pengaturan.png)
+
+```
+[Screenshot — Settings / Profile Screen]
+```
+ 
+---
+
+### 5. ⭐ Layar Favorit *(Empty State)*
+> Tampilan layar saat daftar favorit masih kosong — menampilkan ilustrasi *empty state* "Orbit kosong".
+![Screenshot Desktop](fav.png)
+```
+[Screenshot — Favorites Empty State Screen]
+```
+ 
+---
+
+## 🗄️ Skema Database
+
+Aplikasi menggunakan **SQLite** melalui library SQLDelight dengan skema tabel `NoteEntity`:
+
+```sql
+CREATE TABLE NoteEntity (
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    title     TEXT    NOT NULL,
+    content   TEXT    NOT NULL,
+    createdAt INTEGER NOT NULL
+);
+```
+
+> **📌 Catatan:** Kolom `createdAt` disimpan dalam format **epoch milliseconds** (`INTEGER`) untuk mempermudah proses sorting secara `ASC` maupun `DESC`.
+ 
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+| Teknologi | Kegunaan |
+|---|---|
+| [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) | Shared business logic lintas platform (Android & iOS) |
+| [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) | UI deklaratif lintas platform |
+| [SQLDelight](https://cashapp.github.io/sqldelight/) | Database lokal & multiplatform SQLite drivers |
+| [AndroidX DataStore](https://developer.android.com/topic/libraries/architecture/datastore) | Penyimpanan preferensi pengguna (sort order & tema) |
+| [Kotlinx Datetime](https://github.com/Kotlin/kotlinx-datetime) | Manajemen waktu & konversi epoch timestamp |
+| Navigation Compose | Navigasi antar layar dalam aplikasi |
+ 
+---
+
+## 🏗️ Arsitektur
+
+Proyek ini menggunakan pola arsitektur **offline-first** dengan pemisahan layer yang jelas:
+
+```
+composeApp/
+├── commonMain/
+│   ├── data/
+│   │   ├── local/          # SQLDelight database & DAOs
+│   │   └── preferences/    # DataStore preferences
+│   ├── domain/
+│   │   ├── model/          # Data models (Note, SortOrder, Theme)
+│   │   └── repository/     # Repository interfaces
+│   └── presentation/
+│       ├── notelist/       # Note List & Search screen
+│       ├── notedetail/     # Note Detail screen
+│       ├── addedit/        # Add / Edit Note dialog
+│       ├── favorites/      # Favorites screen (empty state)
+│       └── settings/       # Settings / Profile screen
+├── androidMain/            # Android-specific implementations
+└── iosMain/                # iOS-specific implementations
+```
+ 
+---
 
 
 This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).

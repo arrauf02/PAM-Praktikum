@@ -1,5 +1,6 @@
 package com.example.pengembanganaplikasimobile.data
 
+
 import com.example.pengembanganaplikasimobile.db.NotesDatabase
 import com.example.pengembanganaplikasimobile.db.NoteEntity
 import app.cash.sqldelight.coroutines.asFlow
@@ -8,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Clock
+import app.cash.sqldelight.coroutines.mapToOneOrNull
 
 class NoteRepository(database: NotesDatabase) {
     private val queries = database.noteQueries
@@ -34,8 +36,12 @@ class NoteRepository(database: NotesDatabase) {
         val now = Clock.System.now().toEpochMilliseconds()
         queries.updateNote(title, content, now, id)
     }
-
+    // Ambil detail catatan berdasarkan ID
+    fun getNoteById(id: Long): Flow<NoteEntity?> {
+        return queries.selectNoteById(id).asFlow().mapToOneOrNull(Dispatchers.IO)
+    }
     suspend fun deleteNote(id: Long) {
         queries.deleteNote(id)
     }
 }
+
