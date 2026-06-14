@@ -9,30 +9,24 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import com.example.pengembanganaplikasimobile.data.NoteRepository
 import screens.*
-
-// Data class untuk struktur catatan
-data class NoteItem(val id: Int, val title: String, val content: String)
+import com.example.pengembanganaplikasimobile.screens.*
 
 sealed class Screen(val route: String) {
     object Notes : Screen("notes")
     object Favorites : Screen("favorites")
     object Profile : Screen("profile")
     object NoteDetail : Screen("note_detail/{noteId}") {
-        fun createRoute(id: Int) = "note_detail/$id"
+        fun createRoute(id: Long) = "note_detail/$id" // Ubah ID ke Long menyesuaikan SQLDelight
     }
 }
 
 @Composable
-fun AppNavigation() {
+fun AppNavigation(repository: NoteRepository, dataStore: DataStore<Preferences>) {
     val navController = rememberNavController()
-
-    // PENYIMPANAN SEMENTARA: Data ini tidak akan hilang saat pindah tab
-    val noteList = remember {
-        mutableStateListOf(
-            NoteItem(123140032, "Note everything to remember", "Selamat datang di Ups Diary.")
-        )
-    }
 
     Scaffold(
         bottomBar = {
@@ -41,9 +35,9 @@ fun AppNavigation() {
                 val currentRoute = navBackStackEntry?.destination?.route
 
                 val menuItems = listOf(
-                    Triple(Screen.Notes, "Notes", "Catatan"),
-                    Triple(Screen.Favorites, "Favs", "Favorit"),
-                    Triple(Screen.Profile, "User", "Pengguna")
+                    Triple(Screen.Notes, "Notes", "📝"),
+                    Triple(Screen.Favorites, "Favs", "⭐"),
+                    Triple(Screen.Profile, "User", "👤")
                 )
 
                 menuItems.forEach { (screen, label, icon) ->
@@ -51,7 +45,6 @@ fun AppNavigation() {
                         selected = currentRoute == screen.route,
                         onClick = {
                             navController.navigate(screen.route) {
-                                // Memperbaiki bug "gabisa balik": balik ke awal tanpa hapus stack
                                 popUpTo(navController.graph.findStartDestination().id) {
                                     saveState = true
                                 }
@@ -74,21 +67,18 @@ fun AppNavigation() {
         ) {
             composable(Screen.Notes.route) {
                 NoteListScreen(
-                    notes = noteList,
-                    onNoteClick = { id -> navController.navigate(Screen.NoteDetail.createRoute(id)) },
-                    onSaveNote = { t, c ->
-                        val newId = if (noteList.isEmpty()) 1 else noteList.maxOf { it.id } + 1
-                        noteList.add(NoteItem(newId, t, c))
-                    }
+                    repository = repository,
+                    dataStore = dataStore,
+                    onNoteClick = { id -> navController.navigate(Screen.NoteDetail.createRoute(id)) }
                 )
             }
             composable(Screen.Favorites.route) { FavoritesScreen() }
-            composable(Screen.Profile.route) { ProfileScreen() }
+            composable(Screen.Profile.route) { ProfileScreen(dataStore = dataStore) }
             composable(
                 route = Screen.NoteDetail.route,
-                arguments = listOf(navArgument("noteId") { type = NavType.IntType })
+                arguments = listOf(navArgument("noteId") { type = NavType.LongType })
             ) { backStackEntry ->
-                val id = backStackEntry.arguments?.getInt("noteId") ?: 0
+                val id = backStackEntry.arguments?.getLong("noteId") ?: 0L
                 NoteDetailScreen(noteId = id, onBack = { navController.popBackStack() })
             }
         }

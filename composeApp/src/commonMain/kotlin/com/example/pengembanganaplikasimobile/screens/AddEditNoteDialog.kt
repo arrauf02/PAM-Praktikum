@@ -11,22 +11,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun AddNoteDialog(
+fun AddEditNoteDialog(
+    initialTitle: String = "",
+    initialContent: String = "",
     onDismiss: () -> Unit,
     onSave: (String, String) -> Unit
 ) {
-    var title by remember { mutableStateOf("") }
-    var content by remember { mutableStateOf("") }
+    var title by remember { mutableStateOf(initialTitle) }
+    var content by remember { mutableStateOf(initialContent) }
 
     Dialog(onDismissRequest = onDismiss) {
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxWidth().padding(16.dp),
             shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color(0xFF1A1A2E) // Warna biru gelap Galaxy
-            ),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFF1A1A2E)),
             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
         ) {
             Column(
@@ -34,7 +32,7 @@ fun AddNoteDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Catatan Baru",
+                    text = if (initialTitle.isEmpty()) "Catatan Baru" else "Edit Catatan",
                     style = MaterialTheme.typography.headlineSmall,
                     color = Color.White
                 )
@@ -70,10 +68,7 @@ fun AddNoteDialog(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
-                ) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                     TextButton(onClick = onDismiss) {
                         Text("Batal", color = Color(0xFFCF6679))
                     }
@@ -84,9 +79,7 @@ fun AddNoteDialog(
                                 onSave(title, content)
                             }
                         },
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = Color(0xFF03DAC6)
-                        )
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF03DAC6))
                     ) {
                         Text("Simpan", color = Color.Black)
                     }

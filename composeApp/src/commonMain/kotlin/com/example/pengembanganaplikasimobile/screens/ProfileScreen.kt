@@ -15,22 +15,49 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileScreen(dataStore: DataStore<Preferences>) {
     val scope = rememberCoroutineScope()
+
+    // Key untuk DataStore
     val sortKey = stringPreferencesKey("sort_order")
+    val themeKey = stringPreferencesKey("app_theme")
+
+    // Ambil data (observe) dari DataStore
     val sortOrder by dataStore.data.map { it[sortKey] ?: "DESC" }.collectAsState("DESC")
+    val appTheme by dataStore.data.map { it[themeKey] ?: "Galaxy" }.collectAsState("Galaxy")
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text("Arrauf Setiawan Muhammad Jabar", color = Color.White) // Identitas Arrauf
+        // Teks menggunakan warna dinamis mengikuti tema
+        Text("Arrauf Setiawan Muhammad Jabar", color = MaterialTheme.colorScheme.onBackground)
         Text("NIM: 123140032", color = Color.Gray)
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        Text("Pengaturan (DataStore)", color = Color(0xFFBB86FC))
-        Button(onClick = {
-            scope.launch {
-                dataStore.edit { it[sortKey] = if (sortOrder == "DESC") "ASC" else "DESC" }
-            }
-        }) {
-            Text("Toggle Urutan: $sortOrder")
+        Text("Pengaturan DataStore", color = MaterialTheme.colorScheme.primary)
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Tombol 1: Toggle Urutan
+        Button(
+            onClick = {
+                scope.launch {
+                    dataStore.edit { it[sortKey] = if (sortOrder == "DESC") "ASC" else "DESC" }
+                }
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.secondary)
+        ) {
+            Text("Toggle Urutan: $sortOrder", color = Color.Black)
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Tombol 2: Toggle Tema (Baru ditambahkan)
+        Button(
+            onClick = {
+                scope.launch {
+                    dataStore.edit { it[themeKey] = if (appTheme == "Galaxy") "Light" else "Galaxy" }
+                }
+            },
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+        ) {
+            Text("Ubah Tema: $appTheme", color = Color.Black)
         }
     }
 }

@@ -5,16 +5,27 @@ CREATE TABLE NoteEntity (
     createdAt INTEGER NOT NULL
 );
 
-selectAll:
+-- Query untuk sorting DESC
+selectAllDesc:
 SELECT * FROM NoteEntity ORDER BY createdAt DESC;
 
--- Gunakan INSERT OR REPLACE agar parameter ID bisa null (auto-increment)
+-- Query untuk sorting ASC
+selectAllAsc:
+SELECT * FROM NoteEntity ORDER BY createdAt ASC;
+
+-- Query Insert
 insertNote:
 INSERT OR REPLACE INTO NoteEntity(id, title, content, createdAt)
 VALUES (?, ?, ?, ?);
 
+-- Query Update (Baru ditambahkan)
+updateNote:
+UPDATE NoteEntity SET title = ?, content = ?, createdAt = ? WHERE id = ?;
+
+-- Query Delete
 deleteNote:
 DELETE FROM NoteEntity WHERE id = ?;
 
+-- Query Search
 searchNotes:
 SELECT * FROM NoteEntity WHERE title LIKE ('%' || :query || '%') OR content LIKE ('%' || :query || '%');

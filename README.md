@@ -6,7 +6,8 @@
 
 
 ### Desktop (JVM)
-![Screenshot Desktop](desktop.png)
+![Screenshot Desktop](desktop1.png)
+![Screenshot Desktop](desktop2.png)
 
 
 

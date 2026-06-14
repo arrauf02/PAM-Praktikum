@@ -9,8 +9,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import components.GalaxyWrapper
 
+// UBAH Int MENJADI Long DI SINI 👇
 @Composable
-fun NoteDetailScreen(noteId: Int, onBack: () -> Unit) {
+fun NoteDetailScreen(noteId: Long, onBack: () -> Unit) {
     GalaxyWrapper {
         Column(
             modifier = Modifier.fillMaxSize(),

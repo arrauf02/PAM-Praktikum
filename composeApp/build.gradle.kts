@@ -25,9 +25,16 @@ kotlin {
 
                 implementation(libs.navigation.compose)
                 implementation(libs.savedstate)
+
+                // SQLDelight
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.sqldelight.coroutine)
+
+                // DataStore
                 implementation(libs.androidx.datastore.preferences.core)
+
+                // TAMBAHAN: Kotlinx Datetime (Karena dipakai di NoteRepository.kt)
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
             }
         }
 
@@ -35,6 +42,9 @@ kotlin {
             dependencies {
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.activity)
+
+                // TAMBAHAN: SQLDelight Android Driver
+                implementation("app.cash.sqldelight:android-driver:2.0.1")
             }
         }
 
@@ -42,6 +52,9 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.coroutines.swing)
+
+                // TAMBAHAN: SQLDelight Desktop/JVM Driver
+                implementation("app.cash.sqldelight:sqlite-driver:2.0.1")
             }
         }
 
@@ -52,6 +65,7 @@ kotlin {
         }
     }
 }
+
 sqldelight {
     databases {
         create("NotesDatabase") {
