@@ -15,7 +15,7 @@ class NewsRepository(private val client: HttpClient) {
     suspend fun fetchPosts(): List<Post> {
         return try {
             val response: NewsResponse = client.get(url).body()
-            response.articles ?: emptyList()
+            response.articles?.shuffled() ?: emptyList()
         } catch (e: Exception) {
 
             throw Exception("Gagal tarik data: ${e.message}")

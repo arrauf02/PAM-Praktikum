@@ -7,6 +7,7 @@
 
 ### Desktop (JVM)
 ![Screenshot Desktop](desktop1.png)
+![Screenshot Desktop](desktop2.png)
 
 This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop (JVM).
 
