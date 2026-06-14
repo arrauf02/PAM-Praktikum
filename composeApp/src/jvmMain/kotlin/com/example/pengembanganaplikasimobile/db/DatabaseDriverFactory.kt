@@ -2,22 +2,17 @@ package com.example.pengembanganaplikasimobile.db
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
-import java.io.File // Jangan lupa tambahkan import ini
+import java.io.File
 
 actual class DatabaseDriverFactory {
     actual fun createDriver(): SqlDriver {
-        // Cek apakah file database sudah ada di direktori project
-        val dbFile = File("notes.db")
-        val isNewDatabase = !dbFile.exists()
+        val dbFile = File(System.getProperty("user.home"), "notes.db")
+        val driver = JdbcSqliteDriver("jdbc:sqlite:${dbFile.absolutePath}")
 
-        // Buat driver dengan path absolut
-        val driver: SqlDriver = JdbcSqliteDriver("jdbc:sqlite:${dbFile.absolutePath}")
-
-        // Hanya eksekusi create table JIKA database ini baru dibuat
-        if (isNewDatabase) {
+        // Cek apakah tabel sudah ada
+        if (!dbFile.exists()) {
             NotesDatabase.Schema.create(driver)
         }
-
         return driver
     }
 }

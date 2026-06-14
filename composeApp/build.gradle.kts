@@ -9,32 +9,36 @@ plugins {
 kotlin {
     androidTarget()
 
-    jvm()
+    // Menggunakan "desktop" agar sesuai dengan konfigurasi compose.desktop di bawah
+    jvm("desktop")
 
     sourceSets {
-
         val commonMain by getting {
             dependencies {
+                // UI & Navigation
                 implementation(libs.compose.runtime)
                 implementation(libs.compose.ui)
                 implementation(libs.compose.foundation)
                 implementation(libs.compose.material3)
+                implementation(libs.navigation.compose)
 
+                // Lifecycle & State
                 implementation(libs.lifecycle.runtime)
                 implementation(libs.lifecycle.viewmodel)
-
-                implementation(libs.navigation.compose)
                 implementation(libs.savedstate)
 
-                // SQLDelight
+                // SQLDelight & Coroutines
                 implementation(libs.sqldelight.runtime)
                 implementation(libs.sqldelight.coroutine)
+                implementation("app.cash.sqldelight:coroutines-extensions:2.0.1")
 
-                // DataStore
+                // DataStore & Datetime
                 implementation(libs.androidx.datastore.preferences.core)
-
-                // TAMBAHAN: Kotlinx Datetime (Karena dipakai di NoteRepository.kt)
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
+
+                // Koin DI
+                implementation("io.insert-koin:koin-core:3.5.3")
+                implementation("io.insert-koin:koin-compose:1.1.2")
             }
         }
 
@@ -42,25 +46,17 @@ kotlin {
             dependencies {
                 implementation(libs.androidx.core)
                 implementation(libs.androidx.activity)
-
-                // TAMBAHAN: SQLDelight Android Driver
                 implementation("app.cash.sqldelight:android-driver:2.0.1")
+                implementation("io.insert-koin:koin-android:3.5.3")
+                implementation("io.insert-koin:koin-androidx-compose:3.5.3")
             }
         }
 
-        val jvmMain by getting {
+        val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.coroutines.swing)
-
-                // TAMBAHAN: SQLDelight Desktop/JVM Driver
                 implementation("app.cash.sqldelight:sqlite-driver:2.0.1")
-            }
-        }
-
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.kotlin.test)
             }
         }
     }
@@ -76,7 +72,6 @@ sqldelight {
 
 android {
     namespace = "com.example.pengembanganaplikasimobile"
-
     compileSdk = 34
 
     defaultConfig {
@@ -92,8 +87,4 @@ compose.desktop {
     application {
         mainClass = "com.example.pengembanganaplikasimobile.MainKt"
     }
-}
-
-tasks.register("jvmRun") {
-    dependsOn("run")
 }
